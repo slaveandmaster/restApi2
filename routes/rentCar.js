@@ -43,7 +43,7 @@ router.get('/allrents', verifyToken, async(req, res)=> {
     res.status(500).send(error.message);
   }
 })
-//delete reservetion
+//delete reservetion production ..
 router.delete('/:id', verifyToken, async(req, res)=> {
   try {
     const id = req.params.id;
