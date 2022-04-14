@@ -1,3 +1,6 @@
+//This is a sample data for initial tests with database and requests
+// DO NOT USE IT
+
 const mongoose = require('mongoose');
 const Cars = require('../models/cars')
 mongoose.connect('mongodb://localhost:27017/rentaCar', {
