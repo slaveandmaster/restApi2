@@ -2,6 +2,7 @@ const router = require("express").Router();
 const { verifyToken } = require("../middleware/auth");
 const Cars = require("../models/cars");
 const Brands = require("../models/brand");
+const Car = require("../models/cars");
 
 //update car info
 router.put("/update:id", verifyToken, async (req, res) => {
@@ -27,7 +28,6 @@ router.put("/update:id", verifyToken, async (req, res) => {
     return res.status(500).json("Something wrong");
   }
   //const updateData = { $set: {isRented: true, $inc: {RentalRate: 1}}};
-  
 });
 //original for development
 // router.get("/all", verifyToken, async (req, res) => {
@@ -38,7 +38,9 @@ router.put("/update:id", verifyToken, async (req, res) => {
 //second variant for production
 router.get("/all", verifyToken, async (req, res) => {
   console.log("Make request");
-  const cars = await Cars.find({ isDeleted: false}).populate("brand").populate("type");
+  const cars = await Cars.find({ isDeleted: false })
+    .populate("brand")
+    .populate("type");
   res.status(200).json(cars);
 });
 //original for development
@@ -52,7 +54,7 @@ router.get("/all", verifyToken, async (req, res) => {
 // });
 //second variant for production
 router.get("/top", async (req, res) => {
-  const topRentedCars = await Cars.find({ isDeleted: false})
+  const topRentedCars = await Cars.find({ isDeleted: false })
     .sort({ RentalRate: -1 })
     .limit(3)
     .populate("type");
@@ -124,7 +126,10 @@ router.put("/:id", verifyToken, async (req, res) => {
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
     id = req.params.id;
-    await Cars.findOneAndUpdate({_id:id, isDeleted: false}, {isDeleted: true});
+    await Cars.findOneAndUpdate(
+      { _id: id, isDeleted: false },
+      { isDeleted: true }
+    );
     return res.status(204).end();
   } catch (error) {
     console.log(error);
